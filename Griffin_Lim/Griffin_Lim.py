@@ -11,13 +11,12 @@ import librosa as lb
 from scipy import signal as sgn
 
 
-def griffin_lim(x,fs,iteracion,ventana = 'hamming'):
-    
-    f1,t1,y = sgn.stft(x,fs, window = ventana ,nperseg = 1000)
+def griffin_lim(y, fs, iteracion, ventana = 'hann'):
+   
     y_real = np.real(y)
     matriz_compleja = np.random.randn(*y_real.shape)
-    matriz_reconstruida = y_real + 1j*matriz_compleja
-    b, ISTFT_inicial = sgn.istft(matriz_reconstruida,fs,window = ventana , nperseg = 1000)
+    matriz_reconstruida = y_real* e** (1j*matriz_compleja)
+    b, ISTFT_inicial = sgn.istft(matriz_reconstruida, fs, window = ventana, nperseg = 1000)
     
     counter= 0
     
@@ -31,7 +30,7 @@ def griffin_lim(x,fs,iteracion,ventana = 'hamming'):
     
     return t,ISTFT_initial
 
-def griffin_lim2(x,fs,iteracion,ventana = 'hamming'):
+def griffin_lim2(x,fs,iteracion,ventana = 'hann'):
     
     x_mag = lb.stft(x,fs,window = ventana, nperseg = 1000)
      
